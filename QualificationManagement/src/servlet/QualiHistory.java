@@ -59,9 +59,6 @@ public class QualiHistory extends HttpServlet {
 				//セッションスコープにインスタンスを保存
 				session.setAttribute("user", user);
 
-				//セッションスコープに一覧表示データを格納
-				session.setAttribute("list", QualificationDAO.getExamList(fullName));
-
 				Top.flag = false;
 				String view = "/WEB-INF/view/history.jsp";
 				RequestDispatcher dispatcher = request.getRequestDispatcher(view);
@@ -75,6 +72,7 @@ public class QualiHistory extends HttpServlet {
 
 
 		} else {			//flag = falseの場合
+
 			String view = "/WEB-INF/view/history.jsp";
 			RequestDispatcher dispatcher = request.getRequestDispatcher(view);
 			dispatcher.forward(request, response);

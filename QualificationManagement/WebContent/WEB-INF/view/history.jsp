@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ page import="dto.ExamInfo"%>
 <%@ page import="java.util.ArrayList"%>
+<%@ page import="dao.QualificationDAO" %>
 <%@ page import="dto.Login"%>
 <!DOCTYPE html>
 <html>
@@ -16,8 +17,8 @@
 
 		<%
 			request.setCharacterEncoding("UTF-8");
-			ArrayList<ExamInfo> allExam = (ArrayList<ExamInfo>) session.getAttribute("list");
 			Login user = (Login) session.getAttribute("user");
+			ArrayList<ExamInfo> allExam = QualificationDAO.getExamList(user.getStuName());
 		%>
 
 		<h1>
@@ -74,8 +75,8 @@
 					}
 				%>
 			</tbody>
-		</table>
+		</table><br><br>
 
-			<input type="button" class="button" value="受験データを新たに登録" onclick="location.href='/QualificationManagement/ExaRegister'">
+			<input type="button" class="button" value="受験データを新たに登録" onclick="location.href='/QualificationManagement/ExaRegister'" style="WIDTH: 200px; HEIGHT: 50px;">
 </body>
 </html>

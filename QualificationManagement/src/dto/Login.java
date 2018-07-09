@@ -1,6 +1,7 @@
 package dto;
 
 public class Login {
+	private int stuId;
 	private String stuName;
 	private String stuPass;
 
@@ -8,9 +9,18 @@ public class Login {
 
 	}
 
-	public Login(String stuName, String stuPass) {
+	public Login(int stuId, String stuName, String stuPass) {
+		this.stuId = stuId;
 		this.stuName = stuName;
 		this.stuPass = stuPass;
+	}
+
+	public int getStuId() {
+		return stuId;
+	}
+
+	public void setStuId(int stuId) {
+		this.stuId = stuId;
 	}
 
 	public String getStuName() {
@@ -28,5 +38,6 @@ public class Login {
 	public void setStuPass(String stuPass) {
 		this.stuPass = stuPass;
 	}
+
 
 }

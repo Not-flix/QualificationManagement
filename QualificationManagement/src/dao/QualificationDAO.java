@@ -34,7 +34,7 @@ public class QualificationDAO {
 					"nozomi",
 					"nozomi01");
 
-			String sql = "SELECT stu_name, stu_pass FROM students WHERE stu_name = ?";
+			String sql = "SELECT stu_id, stu_name, stu_pass FROM students WHERE stu_name = ?";
 
 			pstmt = con.prepareStatement(sql);
 
@@ -43,9 +43,10 @@ public class QualificationDAO {
 			rs = pstmt.executeQuery();
 			rs.next();
 
+			int studentId = rs.getInt("stu_id");
 			String studentName = rs.getString("stu_name");
 			String studentPass = rs.getString("stu_pass");
-			login = new Login(studentName, studentPass);
+			login = new Login(studentId, studentName, studentPass);
 
 		} catch (SQLException se){
 			se.printStackTrace();
@@ -170,7 +171,8 @@ public class QualificationDAO {
 					+ " ON b.bunrui_id = q.bunrui_id"
 					+ " INNER JOIN dantai d"
 					+ " ON d.dantai_id = q.dantai_id"
-					+ " WHERE s.stu_name = ?";
+					+ " WHERE s.stu_name = ?"
+					+ " ORDER BY e.quali_date DESC";
 
 			pstmt = con.prepareStatement(sql);
 			String name = stuName;
@@ -251,7 +253,8 @@ public class QualificationDAO {
 					+ " on b.bunrui_id = q.bunrui_id "
 					+ " inner join dantai d "
 					+ " on d.dantai_id = q.dantai_id "
-					+ " where e.succes = \"合格\"" ;
+					+ " where e.succes = \"合格\""
+					+ " ORDER BY e.quali_date DESC";
 
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery();
@@ -581,6 +584,62 @@ public class QualificationDAO {
 
 		return dantaiList;
 
+	}
+
+	//新規受験情報登録
+	public static void insertExamination(int studentId, int qualificationId, String date, String succes){
+		Connection con = null;
+		PreparedStatement pstmt = null;
+
+		try{
+
+			Class.forName("com.mysql.jdbc.Driver");
+
+			con = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/qualification_management?useSSL=false",
+					"nozomi",
+					"nozomi01");
+
+			String sql = "insert into examination(stu_id, quali_id, quali_date, succes) values(?,?,?,?);";
+
+			pstmt = con.prepareStatement(sql);
+
+			int stuId = studentId;
+			int qualiId = qualificationId;
+			String qualiDate = date;
+			String qualiSucces = succes;
+
+			pstmt.setInt(1, stuId);
+			pstmt.setInt(2, qualiId);
+			pstmt.setString(3, qualiDate);
+			pstmt.setString(4, qualiSucces);
+
+			pstmt.executeUpdate();
+
+		} catch (SQLException e){
+			e.printStackTrace();
+		} catch (Exception e){
+			e.printStackTrace();
+		} finally {
+
+			try {
+				if( pstmt != null){
+					pstmt.close();
+				}
+			} catch(SQLException e){
+				System.out.println("DB切断時にエラーが発生しました。");
+				e.printStackTrace();
+			}
+
+			try {
+				if( con != null){
+					con.close();
+				}
+			} catch (SQLException e){
+				System.out.println("DB切断時にエラーが発生しました。");
+				e.printStackTrace();
+			}
+		}
 	}
 
 }
