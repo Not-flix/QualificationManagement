@@ -1,0 +1,105 @@
+
+header{
+	width: 820px;
+	height: 100px;
+	margin: 20px auto 20px auto;
+	position: relative;
+}
+
+header h1 {
+	position: absolute;
+}
+
+nav {
+	position: absolute;
+	right: 0;
+}
+
+nav ul {
+	list-style-type: none;
+	overflow: hidden;
+}
+
+nav ul li {
+	float: left;
+}
+
+
+nav ul li a:hover {
+	opacity: 0.66;
+}
+
+
+body {
+	margin: 0;
+	padding: 0;
+	background-image: url(../img/header_bg.png);
+	background-repeat: repeat-x;
+	color: #333333;
+	font-family: "メイリオ", Meiryo, "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro",
+		"ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
+	font-size: 87.5%;
+	line-height: 1.5;
+	background-color: #F8F8FF;
+	#dbdbff
+
+
+}
+
+img {
+	border: 0;
+}
+
+#contents {
+	width: 820px;
+	margin: 0 auto 0 auto;
+	overflow: hidden;
+}
+
+/*一覧ページ ここから*/
+table, th, td {
+	border-collapse: collapse;
+	border: 1px solid #ccc;
+	line-height: 1.5;
+}
+
+table.table th {
+	width: 150px;
+	padding: 10px;
+	font-weight: bold;
+	vertical-align: top;
+}
+
+table.table td {
+	width: 350px;
+	padding: 10px;
+	vertical-align: top;
+}
+
+tr:nth-child(even) {
+	background:#E6E6FA;
+}
+
+/*スクロール用*/
+thead.scrollHead,tbody.scrollBody{
+  display:block;
+}
+tbody.scrollBody{
+  overflow-y:scroll;
+  height:300px;
+}
+
+/*幅調整*/
+td,th{
+  table-layout:fixed;
+}
+.no{
+  width:30px;
+}
+.name{
+  width:50px;
+}
+.address{
+  width:200px;
+}
+/*一覧 ここまで*/
