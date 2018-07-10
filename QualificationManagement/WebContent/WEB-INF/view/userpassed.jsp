@@ -95,24 +95,21 @@
 
 	<center>
 		<h3>試験合格者の一覧です。</h3>
-		<br>
+		<a><font color="blue" style="bold" size="3">絞り込み検索も可能です。</font></a>
 
 		<form name="formName" action="/QualificationManagement/Passed"
 			method="post">
-			<p>
 				<!--選択肢①-->
 				<select name="selectName1" onChange="functionName()">
 					<option value="q.quali_name">資格名</option>
 					<option value="b.bunrui_name">分類</option>
 					<option value="d.dantai_name">団体</option>
 				</select>
-			</p>
-			<p>
+
 				<!--選択肢②（選択肢①の項目によって変化）-->
 				<select name="selectName2"></select>
-			</p>
-			<input type="submit" value="検索！">
-		</form>
+			<input type="submit" value="検索！" style="WIDTH: 100px; HEIGHT: 30px;">
+		</form><br>
 
 		<table class="table">
 			<thead class="scrollHead">
