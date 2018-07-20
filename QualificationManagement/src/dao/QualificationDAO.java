@@ -586,6 +586,89 @@ public class QualificationDAO {
 
 	}
 
+	//教員用ページに表示する生徒の受験情報の取得
+	public static ArrayList<ManagementStudents> getStudentsInfo(){
+
+		ArrayList<ExamInfo> examList = new ArrayList<ExamInfo>();
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try{
+
+			Class.forName("com.mysql.jdbc.Driver");
+
+			con = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/qualification_management?useSSL=false",
+					"nozomi",
+					"nozomi01");
+
+			String sql = "SELECT q.quali_name, b.bunrui_name, d.dantai_name, e.quali_date, e.succes"
+					+ " FROM qualification q"
+					+ " INNER JOIN examination e"
+					+ " ON q.quali_id = e.quali_id"
+					+ " INNER JOIN students s"
+					+ " ON s.stu_id = e.stu_id"
+					+ " INNER JOIN bunrui b"
+					+ " ON b.bunrui_id = q.bunrui_id"
+					+ " INNER JOIN dantai d"
+					+ " ON d.dantai_id = q.dantai_id"
+					+ " WHERE s.stu_name = ?"
+					+ " ORDER BY e.quali_date DESC";
+
+			pstmt = con.prepareStatement(sql);
+			String name = stuName;
+			pstmt.setString(1, name);
+			rs = pstmt.executeQuery();
+
+			while(rs.next() == true){
+				String qualiName = rs.getString("q.quali_name");
+				String bunruiName = rs.getString("b.bunrui_name");
+				String dantaiName = rs.getString("d.dantai_name");
+				String date = rs.getString("e.quali_date");
+				String succes = rs.getString("e.succes");
+
+				examList.add(new ExamInfo(qualiName, bunruiName, dantaiName, date, succes));
+			}
+
+
+		} catch (SQLException se){
+			se.printStackTrace();
+		} catch (Exception e){
+
+		} finally {
+			try {
+				if( rs != null){
+					rs.close();
+				}
+			} catch(SQLException e){
+				System.out.println("DB切断時にエラーが発生しました。");
+				e.printStackTrace();
+			}
+			try {
+				if( pstmt != null){
+					pstmt.close();
+				}
+			} catch(SQLException e){
+				System.out.println("DB切断時にエラーが発生しました。");
+				e.printStackTrace();
+			}
+
+			try {
+				if( con != null){
+					con.close();
+				}
+			} catch (SQLException e){
+				System.out.println("DB切断時にエラーが発生しました。");
+				e.printStackTrace();
+			}
+		}
+
+		return examList;
+
+	}
+
 	//新規受験情報登録
 	public static void insertExamination(int studentId, int qualificationId, String date, String succes){
 		Connection con = null;
