@@ -662,7 +662,7 @@ public class QualificationDAO {
 
 	}
 
-	//教員用ページに表示する生徒の受験情報の取得
+	//教員用ページに表示する生徒の受験情報の取得(全校)
 	public static ArrayList<StudentsInfo> getStudentsInfo(){
 
 		ArrayList<StudentsInfo> qualiStuList = new ArrayList<StudentsInfo>();
@@ -693,6 +693,182 @@ public class QualificationDAO {
 					+" order by s.school_year asc, s.school_class asc, s.stu_name asc, e.quali_date desc;";
 
 			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+
+			while(rs.next() == true){
+				int exaId = rs.getInt("e.exa_id");
+				String stuName = rs.getString("s.stu_name");
+				int stuYear = rs.getInt("s.school_year");
+				int stuClass = rs.getInt("s.school_class");
+				String qualiName = rs.getString("q.quali_name");
+				String bunruiName = rs.getString("b.bunrui_name");
+				String dantaiName = rs.getString("d.dantai_name");
+				String date = rs.getString("e.quali_date");
+				String succes = rs.getString("e.succes");
+
+				qualiStuList.add(new StudentsInfo(exaId, stuName, stuYear, stuClass, qualiName, bunruiName, dantaiName, date, succes));
+			}
+
+
+		} catch (SQLException se){
+			se.printStackTrace();
+		} catch (Exception e){
+
+		} finally {
+			try {
+				if( rs != null){
+					rs.close();
+				}
+			} catch(SQLException e){
+				System.out.println("DB切断時にエラーが発生しました。");
+				e.printStackTrace();
+			}
+			try {
+				if( pstmt != null){
+					pstmt.close();
+				}
+			} catch(SQLException e){
+				System.out.println("DB切断時にエラーが発生しました。");
+				e.printStackTrace();
+			}
+
+			try {
+				if( con != null){
+					con.close();
+				}
+			} catch (SQLException e){
+				System.out.println("DB切断時にエラーが発生しました。");
+				e.printStackTrace();
+			}
+		}
+
+		return qualiStuList;
+
+	}
+
+	//教員用ページに表示する生徒の受験情報の取得(学年)
+	public static ArrayList<StudentsInfo> getYearInfo(int stYear){
+
+		ArrayList<StudentsInfo> qualiStuList = new ArrayList<StudentsInfo>();
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try{
+
+			Class.forName("com.mysql.jdbc.Driver");
+
+			con = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/qualification_management?useSSL=false",
+					"nozomi",
+					"nozomi01");
+
+			String sql = "select e.exa_id, s.stu_name, s.school_year, s.school_class, q.quali_name, b.bunrui_name, d.dantai_name, e.quali_date, e.succes"
+					+ " from students s"
+					+" inner join examination e "
+					+" on s.stu_id = e.stu_id"
+					+" inner join qualification q"
+					+" on e.quali_id = q.quali_id"
+					+" inner join bunrui b"
+					+" on q.bunrui_id = b.bunrui_id"
+					+" inner join dantai d"
+					+" on q.dantai_id = d.dantai_id"
+					+" where s.school_year = ?"
+					+" order by s.school_year asc, s.school_class asc, s.stu_name asc, e.quali_date desc;";
+
+			pstmt = con.prepareStatement(sql);
+			int year = stYear;
+			pstmt.setInt(1, year);
+			rs = pstmt.executeQuery();
+
+			while(rs.next() == true){
+				int exaId = rs.getInt("e.exa_id");
+				String stuName = rs.getString("s.stu_name");
+				int stuYear = rs.getInt("s.school_year");
+				int stuClass = rs.getInt("s.school_class");
+				String qualiName = rs.getString("q.quali_name");
+				String bunruiName = rs.getString("b.bunrui_name");
+				String dantaiName = rs.getString("d.dantai_name");
+				String date = rs.getString("e.quali_date");
+				String succes = rs.getString("e.succes");
+
+				qualiStuList.add(new StudentsInfo(exaId, stuName, stuYear, stuClass, qualiName, bunruiName, dantaiName, date, succes));
+			}
+
+
+		} catch (SQLException se){
+			se.printStackTrace();
+		} catch (Exception e){
+
+		} finally {
+			try {
+				if( rs != null){
+					rs.close();
+				}
+			} catch(SQLException e){
+				System.out.println("DB切断時にエラーが発生しました。");
+				e.printStackTrace();
+			}
+			try {
+				if( pstmt != null){
+					pstmt.close();
+				}
+			} catch(SQLException e){
+				System.out.println("DB切断時にエラーが発生しました。");
+				e.printStackTrace();
+			}
+
+			try {
+				if( con != null){
+					con.close();
+				}
+			} catch (SQLException e){
+				System.out.println("DB切断時にエラーが発生しました。");
+				e.printStackTrace();
+			}
+		}
+
+		return qualiStuList;
+
+	}
+
+	//教員用ページに表示する生徒の受験情報の取得(クラス)
+	public static ArrayList<StudentsInfo> getClassInfo(int stYear, int stClass){
+
+		ArrayList<StudentsInfo> qualiStuList = new ArrayList<StudentsInfo>();
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try{
+
+			Class.forName("com.mysql.jdbc.Driver");
+
+			con = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/qualification_management?useSSL=false",
+					"nozomi",
+					"nozomi01");
+
+			String sql = "select e.exa_id, s.stu_name, s.school_year, s.school_class, q.quali_name, b.bunrui_name, d.dantai_name, e.quali_date, e.succes"
+					+ " from students s"
+					+" inner join examination e "
+					+" on s.stu_id = e.stu_id"
+					+" inner join qualification q"
+					+" on e.quali_id = q.quali_id"
+					+" inner join bunrui b"
+					+" on q.bunrui_id = b.bunrui_id"
+					+" inner join dantai d"
+					+" on q.dantai_id = d.dantai_id"
+					+"  where s.school_year = ? and s.school_class = ?"
+					+" order by s.school_year asc, s.school_class asc, s.stu_name asc, e.quali_date desc;";
+
+			pstmt = con.prepareStatement(sql);
+			int cls = stClass;
+			int year = stYear;
+			pstmt.setInt(1, cls);
+			pstmt.setInt(2, year);
 			rs = pstmt.executeQuery();
 
 			while(rs.next() == true){

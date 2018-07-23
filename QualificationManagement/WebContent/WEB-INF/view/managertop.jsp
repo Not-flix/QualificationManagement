@@ -18,7 +18,6 @@
 
 		<%
 			request.setCharacterEncoding("UTF-8");
-			ArrayList<StudentsInfo> qualiStuList = (ArrayList<StudentsInfo>)request.getAttribute("qualiList");
 		%>
 
 		<h1>
@@ -41,43 +40,62 @@
 
 
 	<center>
-		<h3>全生徒の受験状況の確認や更新が出来ます。</h3>
+		<h3>各学年・クラスの受験状況の確認や更新が出来ます。</h3>
 
-		<table class="table">
-			<thead class="scrollHead">
-				<tr>
-					<th>氏名</th>
-					<th>学年</th>
-					<th>クラス</th>
-					<th>資格名</th>
-					<th>分類</th>
-					<th>主催</th>
-					<th>受験日</th>
-					<th>結果</th>
-					<th>更新</th>
-					<th>削除</th>
-				</tr>
-			</thead>
-			<tbody class="scrollBody">
-				<%
-					for (StudentsInfo si : qualiStuList) {
-				%>
-				<tr>
-					<td><%=si.getStuName()%></td>
-					<td><%=si.getStuYear()%></td>
-					<td><%=si.getStuClass()%></td>
-					<td><%=si.getQualiName()%></td>
-					<td><%=si.getBunruiName()%></td>
-					<td><%=si.getDantaiName()%></td>
-					<td><%=si.getQualiDate()%></td>
-					<td><%=si.getSucces()%></td>
-					<td><form action="/QualificationManagement/UpdateQualiData" method="get"><button type="submit" name="update" value=<%=si.getExaId()%>>✎</button></form></td>
-					<td><form action="/QualificationManagement/DeleteQualiData" method="get"><button type="submit" name="delete" value=<%=si.getExaId()%>>🗑️</button></form></td>
-				</tr>
-				<%
-					}
-				%>
-			</tbody>
+		<table>
+			<tr>
+				<td rowspan="16"><form action="/QualificationManagement/ShowQualiData" method="get"><button type="submit">全生徒</button></form></td>
+				<td rowspan="4"><form action="/QualificationManagement/ShowQualiData" method="get"><button type="submit" name="year" value=1>１年</button></form></td>
+				<td><form action="/QualificationManagement/ShowQualiData" method="get"><button type="submit" name="class" value=1,1>１組</button></form></td>
+			</tr>
+			<tr>
+			<td><form action="/QualificationManagement/ShowQualiData" method="get"><button type="submit" name="class" value=1,2>２組</button></form></td>
+			</tr>
+			<tr>
+			<td><form action="/QualificationManagement/ShowQualiData" method="get"><button type="submit" name="class" value=1,3>３組</button></form></td>
+			</tr>
+			<tr>
+			<td><form action="/QualificationManagement/ShowQualiData" method="get"><button type="submit" name="class" value=1,4>４組</button></form></td>
+			</tr>
+			<tr>
+			<td rowspan="4"><form action="/QualificationManagement/ShowQualiData" method="get"><button type="submit" name="year" value=2>２年</button></form></td>
+			<td><form action="/QualificationManagement/ShowQualiData" method="get"><button type="submit" name="class" value=2,1>１組</button></form></td>
+			</tr>
+			<tr>
+			<td><form action="/QualificationManagement/ShowQualiData" method="get"><button type="submit" name="class" value=2,2>２組</button></form></td>
+			</tr>
+			<tr>
+			<td><form action="/QualificationManagement/ShowQualiData" method="get"><button type="submit" name="class" value=2,3>３組</button></form></td>
+			</tr>
+			<tr>
+			<td><form action="/QualificationManagement/ShowQualiData" method="get"><button type="submit" name="class" value=2,4>４組</button></form></td>
+			</tr>
+			<tr>
+			<td rowspan="4"><form action="/QualificationManagement/ShowQualiData" method="get"><button type="submit" name="year" value=3>３年</button></form></td>
+			<td><form action="/QualificationManagement/ShowQualiData" method="get"><button type="submit" name="class" value=3,1>１組</button></form></td>
+			</tr>
+			<tr>
+			<td><form action="/QualificationManagement/ShowQualiData" method="get"><button type="submit" name="class" value=3,2>２組</button></form></td>
+			</tr>
+			<tr>
+			<td><form action="/QualificationManagement/ShowQualiData" method="get"><button type="submit" name="class" value=3,3>３組</button></form></td>
+			</tr>
+			<tr>
+			<td><form action="/QualificationManagement/ShowQualiData" method="get"><button type="submit" name="class" value=3,4>４組</button></form></td>
+			</tr>
+			<tr>
+			<td rowspan="4"><form action="/QualificationManagement/ShowQualiData" method="get"><button type="submit" name="year" value=4>４年</button></form></td>
+			<td><form action="/QualificationManagement/ShowQualiData" method="get"><button type="submit" name="class" value=4,1>１組</button></form></td>
+			</tr>
+			<tr>
+			<td><form action="/QualificationManagement/ShowQualiData" method="get"><button type="submit" name="class" value=4,2>２組</button></form></td>
+			</tr>
+			<tr>
+			<td><form action="/QualificationManagement/ShowQualiData" method="get"><button type="submit" name="class" value=4,3>３組</button></form></td>
+			</tr>
+			<tr>
+			<td><form action="/QualificationManagement/ShowQualiData" method="get"><button type="submit" name="class" value=4,4>４組</button></form></td>
+			</tr>
 		</table>
 		<br>
 </body>
