@@ -2,8 +2,9 @@
 	pageEncoding="UTF-8"%>
 <%@ page import="dto.ExamInfo"%>
 <%@ page import="java.util.ArrayList"%>
-<%@ page import="dao.QualificationDAO" %>
+<%@ page import="dao.QualificationDAO"%>
 <%@ page import="dto.Login"%>
+<%@ page import="dto.StudentsInfo" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,7 +18,7 @@
 
 		<%
 			request.setCharacterEncoding("UTF-8");
-			Login user = (Login) session.getAttribute("user");
+			ArrayList<StudentsInfo> qualiStuList = (ArrayList<StudentsInfo>)request.getAttribute("qualiList");
 		%>
 
 		<h1>
@@ -25,8 +26,8 @@
 		</h1>
 		<nav>
 			<ul>
-				<li><a href="/QualificationManagement/QualiHistory"><img
-						src="./img/受験履歴.png" width="170" height="60" alt="受験履歴"></a></li>
+				<li><a href="/QualificationManagement/ManagerTop"><img
+						src="./img/受験状況.png" width="170" height="60" alt="受験状況"></a></li>
 				<li><a href="/QualificationManagement/Passed"><img
 						src="./img/試験合格者.png" width="170" height="60" alt="試験合格者"></a></li>
 				<li><a href="/QualificationManagement/AllHistory"><img
@@ -40,34 +41,44 @@
 
 
 	<center>
-		<h3><%=user.getStuName()%>さんの受験履歴です。
-		</h3>
+		<h3>全生徒の受験状況の確認や更新が出来ます。</h3>
 
 		<table class="table">
 			<thead class="scrollHead">
 				<tr>
-					<th>no.</th>
+					<th>氏名</th>
+					<th>学年</th>
+					<th>クラス</th>
 					<th>資格名</th>
 					<th>分類</th>
-					<th>主催団体</th>
+					<th>主催</th>
 					<th>受験日</th>
 					<th>結果</th>
+					<th>更新</th>
+					<th>削除</th>
 				</tr>
 			</thead>
 			<tbody class="scrollBody">
 				<%
-
+					for (StudentsInfo si : qualiStuList) {
 				%>
 				<tr>
-
+					<td><%=si.getStuName()%></td>
+					<td><%=si.getStuYear()%></td>
+					<td><%=si.getStuClass()%></td>
+					<td><%=si.getQualiName()%></td>
+					<td><%=si.getBunruiName()%></td>
+					<td><%=si.getDantaiName()%></td>
+					<td><%=si.getQualiDate()%></td>
+					<td><%=si.getSucces()%></td>
+					<td><form action="/QualificationManagement/UpdateQualiData" method="get"><button type="submit" name="update" value=<%=si.getExaId()%>>✎</button></form></td>
+					<td><form action="/QualificationManagement/DeleteQualiData" method="get"><button type="submit" name="delete" value=<%=si.getExaId()%>>🗑️</button></form></td>
 				</tr>
-
 				<%
-
+					}
 				%>
 			</tbody>
-		</table><br><br>
-
-			<input type="button" class="button" value="受験データを新たに登録" onclick="location.href='/QualificationManagement/ExaRegister'" style="WIDTH: 200px; HEIGHT: 50px;">
+		</table>
+		<br>
 </body>
 </html>

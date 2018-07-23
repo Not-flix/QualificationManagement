@@ -12,16 +12,16 @@ import javax.servlet.http.HttpServletResponse;
 import dao.QualificationDAO;
 
 /**
- * Servlet implementation class ManagerTop
+ * Servlet implementation class UpdateQualiData
  */
-@WebServlet("/ManagerTop")
-public class ManagerTop extends HttpServlet {
+@WebServlet("/UpdateQualiData")
+public class UpdateQualiData extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ManagerTop() {
+    public UpdateQualiData() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,9 +31,11 @@ public class ManagerTop extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		request.setAttribute("qualiList", QualificationDAO.getStudentsInfo());
+		int updateKey = Integer.parseInt(request.getParameter("update"));
+		request.setAttribute("examination", QualificationDAO.searchExam(updateKey));
+		request.setAttribute("qualiNameList", QualificationDAO.getAllQualiName());
 
-		String view = "/WEB-INF/view/managertop.jsp";
+		String view = "/WEB-INF/view/updatequalidata.jsp";
 		RequestDispatcher dispatcher = request.getRequestDispatcher(view);
 		dispatcher.forward(request, response);
 	}
