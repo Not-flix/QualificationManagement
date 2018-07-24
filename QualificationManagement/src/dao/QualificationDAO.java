@@ -219,6 +219,70 @@ public class QualificationDAO {
 
 	}
 
+	//資格名をもとに資格番号を取得
+	public static int getQualiNo(String key){
+
+		int qualiNo = 0;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try{
+
+			Class.forName("com.mysql.jdbc.Driver");
+
+			con = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/qualification_management?useSSL=false",
+					"nozomi",
+					"nozomi01");
+
+			String sql = "select quali_id from qualification where quali_name = ?";
+
+
+			pstmt = con.prepareStatement(sql);
+			String qualiName = key;
+			pstmt.setString(1, qualiName);
+			rs = pstmt.executeQuery();
+			rs.next();
+
+			qualiNo = rs.getInt("quali_id");
+
+		} catch (SQLException se){
+			se.printStackTrace();
+		} catch (Exception e){
+
+		} finally {
+			try {
+				if( rs != null){
+					rs.close();
+				}
+			} catch(SQLException e){
+				System.out.println("DB切断時にエラーが発生しました。");
+				e.printStackTrace();
+			}
+			try {
+				if( pstmt != null){
+					pstmt.close();
+				}
+			} catch(SQLException e){
+				System.out.println("DB切断時にエラーが発生しました。");
+				e.printStackTrace();
+			}
+
+			try {
+				if( con != null){
+					con.close();
+				}
+			} catch (SQLException e){
+				System.out.println("DB切断時にエラーが発生しました。");
+				e.printStackTrace();
+			}
+		}
+
+		return qualiNo;
+
+	}
+
 	//ユーザーごとの全受験データを取得
 	public static ArrayList<ExamInfo> getExamList(String stuName){
 
@@ -958,6 +1022,115 @@ public class QualificationDAO {
 			e.printStackTrace();
 		} finally {
 
+			try {
+				if( pstmt != null){
+					pstmt.close();
+				}
+			} catch(SQLException e){
+				System.out.println("DB切断時にエラーが発生しました。");
+				e.printStackTrace();
+			}
+
+			try {
+				if( con != null){
+					con.close();
+				}
+			} catch (SQLException e){
+				System.out.println("DB切断時にエラーが発生しました。");
+				e.printStackTrace();
+			}
+		}
+	}
+
+	//受験情報更新
+	public static void updateExamList(String item, String condition, int examid){
+		Connection con = null;
+		PreparedStatement pstmt = null;
+
+		try{
+
+			Class.forName("com.mysql.jdbc.Driver");
+
+			con = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/qualification_management?useSSL=false",
+					"nozomi",
+					"nozomi01");
+
+			String sql = "update examination set " + item + "= ? where exa_id = ?"  ;
+
+			pstmt = con.prepareStatement(sql);
+
+			String cdtn = condition;
+			int examId = examid;
+
+			pstmt.setString(1, cdtn);
+			pstmt.setInt(2, examId);
+
+			pstmt.executeUpdate();
+
+		} catch (SQLException e){
+			e.printStackTrace();
+		} catch (Exception e){
+			e.printStackTrace();
+		} finally {
+
+			try {
+				if( pstmt != null){
+					pstmt.close();
+				}
+			} catch(SQLException e){
+				System.out.println("DB切断時にエラーが発生しました。");
+				e.printStackTrace();
+			}
+
+			try {
+				if( con != null){
+					con.close();
+				}
+			} catch (SQLException e){
+				System.out.println("DB切断時にエラーが発生しました。");
+				e.printStackTrace();
+			}
+		}
+
+	}
+
+	//受験情報削除
+	public static void deleteQualiData(int key){
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try{
+
+			Class.forName("com.mysql.jdbc.Driver");
+
+			con = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/qualification_management?useSSL=false",
+					"nozomi",
+					"nozomi01");
+
+			String sql = "delete from examination WHERE exa_id = ?";
+
+			pstmt = con.prepareStatement(sql);
+
+			pstmt.setInt(1, key);
+			pstmt.executeUpdate();
+		} catch (SQLException e){
+
+			e.printStackTrace();
+		} catch (Exception e){
+
+			e.printStackTrace();
+		} finally {
+			try {
+				if( rs != null){
+					rs.close();
+				}
+			} catch(SQLException e){
+				System.out.println("DB切断時にエラーが発生しました。");
+				e.printStackTrace();
+			}
 			try {
 				if( pstmt != null){
 					pstmt.close();

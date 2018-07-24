@@ -12,16 +12,16 @@ import javax.servlet.http.HttpServletResponse;
 import dao.QualificationDAO;
 
 /**
- * Servlet implementation class UpdateQualiData
+ * Servlet implementation class DeleteQualiData
  */
-@WebServlet("/UpdateQualiData")
-public class UpdateQualiData extends HttpServlet {
+@WebServlet("/DeleteQualiData")
+public class DeleteQualiData extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public UpdateQualiData() {
+    public DeleteQualiData() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -30,12 +30,10 @@ public class UpdateQualiData extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		int deleteKey = Integer.parseInt(request.getParameter("delete"));
+		request.setAttribute("examination", QualificationDAO.searchExam(deleteKey));
 
-		int updateKey = Integer.parseInt(request.getParameter("update"));
-		request.setAttribute("examination", QualificationDAO.searchExam(updateKey));
-		request.setAttribute("qualiNameList", QualificationDAO.getAllQualiName());
-
-		String view = "/WEB-INF/view/updatequalidata.jsp";
+		String view = "/WEB-INF/view/deletequalidata.jsp";
 		RequestDispatcher dispatcher = request.getRequestDispatcher(view);
 		dispatcher.forward(request, response);
 	}
@@ -46,14 +44,10 @@ public class UpdateQualiData extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		request.setCharacterEncoding("UTF-8");
-		String item = request.getParameter("selectName1");
-		String condition = request.getParameter("selectName2");
-		int examId = Integer.parseInt(request.getParameter("examid"));
-		if("quali_id".equals(item)){
-			condition = String.valueOf(QualificationDAO.getQualiNo(condition));
-		}
-		QualificationDAO.updateExamList(item, condition, examId);
-		response.sendRedirect("http://localhost:8080/QualificationManagement/ManagerTop");
+		int eId = Integer.parseInt(request.getParameter("examId"));
+		QualificationDAO.deleteQualiData(eId);
+		response.sendRedirect("/QualificationManagement/ManagerTop");
+
 	}
 
 }
