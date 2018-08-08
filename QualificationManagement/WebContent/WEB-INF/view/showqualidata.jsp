@@ -79,6 +79,7 @@
 				%>
 			</tbody>
 		</table>
-		<br>
+		<br><br>
+		<input type="button" class="button" value="ファイル出力" onclick="location.href='/QualificationManagement/CsvWriter'" style="WIDTH: 200px; HEIGHT: 50px;">
 </body>
 </html>

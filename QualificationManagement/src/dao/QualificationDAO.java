@@ -1,5 +1,8 @@
 package dao;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -394,7 +397,7 @@ public class QualificationDAO {
 					+ " inner join dantai d "
 					+ " on d.dantai_id = q.dantai_id "
 					+ " where e.succes = \"合格\""
-					+ " ORDER BY e.quali_date DESC";
+					+ " ORDER BY s.stu_name, e.quali_date DESC";
 
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery();
@@ -474,7 +477,8 @@ public class QualificationDAO {
 					+ " inner join dantai d "
 					+ " on d.dantai_id = q.dantai_id "
 					+ " where e.succes = \"合格\""
-					+ "and " + item + " = ?";
+					+ "and " + item + " = ?"
+					+ " ORDER BY s.stu_name, e.quali_date DESC";
 
 			pstmt = con.prepareStatement(sql);
 			String cdtn = condition;
@@ -1149,6 +1153,98 @@ public class QualificationDAO {
 				e.printStackTrace();
 			}
 		}
+	}
+
+
+
+
+
+	//csvテスト
+	public static void writersCSV(){
+		// CSVデータファイル
+		File csv = new File("C:/Users/Koborinai Nozomi/Desktop/eclipse/writers.csv");
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try{
+
+			Class.forName("com.mysql.jdbc.Driver");
+
+			con = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/qualification_management?useSSL=false",
+					"nozomi",
+					"nozomi01");
+
+			String sql = "select e.exa_id, s.stu_name, s.school_year, s.school_class, q.quali_name, b.bunrui_name, d.dantai_name, e.quali_date, e.succes"
+					+ " from students s"
+					+" inner join examination e "
+					+" on s.stu_id = e.stu_id"
+					+" inner join qualification q"
+					+" on e.quali_id = q.quali_id"
+					+" inner join bunrui b"
+					+" on q.bunrui_id = b.bunrui_id"
+					+" inner join dantai d"
+					+" on q.dantai_id = d.dantai_id"
+					+" order by s.school_year asc, s.school_class asc, s.stu_name asc, e.quali_date desc;";
+
+			pstmt = con.prepareStatement(sql);
+
+			BufferedWriter bw = new BufferedWriter(new FileWriter(csv));
+			bw.write("番号,氏名,学年,クラス,資格名,分類,主催,受験日,結果");
+			bw.newLine();
+
+			rs = pstmt.executeQuery();
+
+			while(rs.next() == true){
+				bw.write(String.valueOf(rs.getInt("e.exa_id")));bw.write(",");
+				bw.write(rs.getString("s.stu_name"));bw.write(",");
+				bw.write(String.valueOf(rs.getInt("s.school_year")));bw.write(",");
+				bw.write(String.valueOf(rs.getInt("s.school_class")));bw.write(",");
+				bw.write(rs.getString("q.quali_name"));bw.write(",");
+				bw.write(rs.getString("b.bunrui_name"));bw.write(",");
+				bw.write(rs.getString("d.dantai_name"));bw.write(",");
+				bw.write(rs.getString("e.quali_date"));bw.write(",");
+				bw.write(rs.getString("e.succes"));
+				bw.newLine();
+			}
+
+			bw.close();
+			System.out.println("ファイル出力完了");
+
+		} catch (SQLException se){
+			se.printStackTrace();
+		} catch (Exception e){
+
+		} finally {
+			try {
+				if( rs != null){
+					rs.close();
+				}
+			} catch(SQLException e){
+				System.out.println("DB切断時にエラーが発生しました。");
+				e.printStackTrace();
+			}
+			try {
+				if( pstmt != null){
+					pstmt.close();
+				}
+			} catch(SQLException e){
+				System.out.println("DB切断時にエラーが発生しました。");
+				e.printStackTrace();
+			}
+
+			try {
+				if( con != null){
+					con.close();
+				}
+			} catch (SQLException e){
+				System.out.println("DB切断時にエラーが発生しました。");
+				e.printStackTrace();
+			}
+		}
+
 	}
 
 }
