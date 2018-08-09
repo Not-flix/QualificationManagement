@@ -60,14 +60,18 @@ public class QualiHistory extends HttpServlet {
 				session.setAttribute("user", user);
 
 				Top.flag = false;
-				String view = "/WEB-INF/view/history.jsp";
-				RequestDispatcher dispatcher = request.getRequestDispatcher(view);
-				dispatcher.forward(request, response);
 
+				if(user.getAuthorithy() == 0){
+					String view = "/WEB-INF/view/history.jsp";
+					RequestDispatcher dispatcher = request.getRequestDispatcher(view);
+					dispatcher.forward(request, response);
+				} else {
+					response.sendRedirect("/QualificationManagement/ManagerTop");
+				}
 
 			} else {
 				//エラー画面
-				response.sendRedirect("/Qualification_Management/Error");
+				response.sendRedirect("/QualificationManagement/Error");
 			}
 
 

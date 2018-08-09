@@ -83,6 +83,8 @@
 
 			 <br><br><br>
 			 <input type="submit" value="受験情報登録" style="WIDTH: 110px; HEIGHT: 40px;">
-		</form>
+		</form><br><br>
+		<a href="javascript:history.go(-1)">[戻る]</a>
+
 </body>
 </html>

@@ -38,7 +38,7 @@ public class QualificationDAO {
 					"nozomi",
 					"nozomi01");
 
-			String sql = "SELECT stu_id, stu_name, stu_pass FROM students WHERE stu_name = ?";
+			String sql = "SELECT stu_id, stu_name, stu_pass, authority FROM students WHERE stu_name = ?";
 
 			pstmt = con.prepareStatement(sql);
 
@@ -50,7 +50,8 @@ public class QualificationDAO {
 			int studentId = rs.getInt("stu_id");
 			String studentName = rs.getString("stu_name");
 			String studentPass = rs.getString("stu_pass");
-			login = new Login(studentId, studentName, studentPass);
+			int auth = rs.getInt("authority");
+			login = new Login(studentId, studentName, studentPass, auth);
 
 		} catch (SQLException se){
 			se.printStackTrace();

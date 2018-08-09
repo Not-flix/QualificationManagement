@@ -4,15 +4,17 @@ public class Login {
 	private int stuId;
 	private String stuName;
 	private String stuPass;
+	private int authority;
 
 	public Login(){
 
 	}
 
-	public Login(int stuId, String stuName, String stuPass) {
+	public Login(int stuId, String stuName, String stuPass, int authority) {
 		this.stuId = stuId;
 		this.stuName = stuName;
 		this.stuPass = stuPass;
+		this.authority = authority;
 	}
 
 	public int getStuId() {
@@ -39,5 +41,12 @@ public class Login {
 		this.stuPass = stuPass;
 	}
 
+	public int getAuthorithy(){
+		return authority;
+	}
+
+	public void setAuthorithy(int authority){
+		this.authority = authority;
+	}
 
 }
