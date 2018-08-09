@@ -1,8 +1,9 @@
 package dao;
 
 import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -1161,9 +1162,9 @@ public class QualificationDAO {
 
 
 	//CSVファイルに書き出し(全生徒の受験情報)
-	public static void writersCSV(){
+	public static void writersCSV() throws FileNotFoundException{
 		// CSVデータファイル
-		File csv = new File("C:/Users/Koborinai Nozomi/Desktop/eclipse/writers.csv");
+		FileOutputStream fos = new FileOutputStream("C:/Users/Koborinai Nozomi/Desktop/eclipse/writers.csv");
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -1192,14 +1193,16 @@ public class QualificationDAO {
 
 			pstmt = con.prepareStatement(sql);
 
-			BufferedWriter bw = new BufferedWriter(new FileWriter(csv));
-			bw.write("番号,氏名,学年,クラス,資格名,分類,主催,受験日,結果");
+			OutputStreamWriter osw = new OutputStreamWriter(fos, "SJIS");
+			BufferedWriter bw = new BufferedWriter(osw);
+			bw.write("No,氏名,学年,クラス,資格名,分類,主催,受験日,結果");
 			bw.newLine();
 
 			rs = pstmt.executeQuery();
 
+			int i = 1; 		//No用
 			while(rs.next() == true){
-				bw.write(String.valueOf(rs.getInt("e.exa_id")));bw.write(",");
+				bw.write(String.valueOf(i));bw.write(",");
 				bw.write(rs.getString("s.stu_name"));bw.write(",");
 				bw.write(String.valueOf(rs.getInt("s.school_year")));bw.write(",");
 				bw.write(String.valueOf(rs.getInt("s.school_class")));bw.write(",");
@@ -1209,6 +1212,7 @@ public class QualificationDAO {
 				bw.write(rs.getString("e.quali_date"));bw.write(",");
 				bw.write(rs.getString("e.succes"));
 				bw.newLine();
+				i++;
 			}
 
 			bw.close();
@@ -1248,9 +1252,9 @@ public class QualificationDAO {
 	}
 
 	//CSVファイルに書き出し(1学年分の生徒の受験情報)
-	public static void writersCSV(int stYear){
+	public static void writersCSV(int stYear) throws FileNotFoundException{
 		// CSVデータファイル
-		File csv = new File("C:/Users/Koborinai Nozomi/Desktop/eclipse/writers.csv");
+		FileOutputStream fos = new FileOutputStream("C:/Users/Koborinai Nozomi/Desktop/eclipse/writers.csv");
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -1282,14 +1286,16 @@ public class QualificationDAO {
 			int year = stYear;
 			pstmt.setInt(1, year);
 
-			BufferedWriter bw = new BufferedWriter(new FileWriter(csv));
-			bw.write("番号,氏名,学年,クラス,資格名,分類,主催,受験日,結果");
+			OutputStreamWriter osw = new OutputStreamWriter(fos, "SJIS");
+			BufferedWriter bw = new BufferedWriter(osw);
+			bw.write("No,氏名,学年,クラス,資格名,分類,主催,受験日,結果");
 			bw.newLine();
 
 			rs = pstmt.executeQuery();
 
+			int i = 1; 		//No用
 			while(rs.next() == true){
-				bw.write(String.valueOf(rs.getInt("e.exa_id")));bw.write(",");
+				bw.write(String.valueOf(i));bw.write(",");
 				bw.write(rs.getString("s.stu_name"));bw.write(",");
 				bw.write(String.valueOf(rs.getInt("s.school_year")));bw.write(",");
 				bw.write(String.valueOf(rs.getInt("s.school_class")));bw.write(",");
@@ -1299,6 +1305,7 @@ public class QualificationDAO {
 				bw.write(rs.getString("e.quali_date"));bw.write(",");
 				bw.write(rs.getString("e.succes"));
 				bw.newLine();
+				i++;
 			}
 
 			bw.close();
@@ -1338,9 +1345,9 @@ public class QualificationDAO {
 	}
 
 	//CSVファイルに書き出し(1クラス分の生徒の受験情報)
-	public static void writersCSV(int stYear, int stClass){
+	public static void writersCSV(int stYear, int stClass) throws FileNotFoundException{
 		// CSVデータファイル
-		File csv = new File("C:/Users/Koborinai Nozomi/Desktop/eclipse/writers.csv");
+		FileOutputStream fos = new FileOutputStream("C:/Users/Koborinai Nozomi/Desktop/eclipse/writers.csv");
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -1374,14 +1381,16 @@ public class QualificationDAO {
 			pstmt.setInt(1, cls);
 			pstmt.setInt(2, year);
 
-			BufferedWriter bw = new BufferedWriter(new FileWriter(csv));
-			bw.write("番号,氏名,学年,クラス,資格名,分類,主催,受験日,結果");
+			OutputStreamWriter osw = new OutputStreamWriter(fos, "SJIS");
+			BufferedWriter bw = new BufferedWriter(osw);
+			bw.write("No,氏名,学年,クラス,資格名,分類,主催,受験日,結果");
 			bw.newLine();
 
 			rs = pstmt.executeQuery();
 
+			int i = 1;		//No用
 			while(rs.next() == true){
-				bw.write(String.valueOf(rs.getInt("e.exa_id")));bw.write(",");
+				bw.write(String.valueOf(rs.getInt(i)));bw.write(",");
 				bw.write(rs.getString("s.stu_name"));bw.write(",");
 				bw.write(String.valueOf(rs.getInt("s.school_year")));bw.write(",");
 				bw.write(String.valueOf(rs.getInt("s.school_class")));bw.write(",");
@@ -1391,6 +1400,7 @@ public class QualificationDAO {
 				bw.write(rs.getString("e.quali_date"));bw.write(",");
 				bw.write(rs.getString("e.succes"));
 				bw.newLine();
+				i++;
 			}
 
 			bw.close();
