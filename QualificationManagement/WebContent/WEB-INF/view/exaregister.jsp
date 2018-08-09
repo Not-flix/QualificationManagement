@@ -82,9 +82,8 @@
 			</select>
 
 			 <br><br><br>
-			 <input type="submit" value="受験情報登録" style="WIDTH: 110px; HEIGHT: 40px;">
+			 <input type="submit" value="受験情報登録" style="WIDTH: 110px; HEIGHT: 40px;" onClick="alert('1件の受験情報を登録しました。');">
 		</form><br><br>
-		<a href="javascript:history.go(-1)">[戻る]</a>
 
 </body>
 </html>

@@ -85,7 +85,7 @@
 				<!--選択肢②（選択肢①の項目によって変化）-->
 				更新内容：<select name="selectName2"></select><br><br>
 				<input type="hidden" name="examid" value=<%=examId %>>
-				<input type="submit" value="更新">
+				<input type="submit" value="更新" onClick="alert('1件の受験情報を更新しました。');">
 		</form>
 
 			<br><br><br>
