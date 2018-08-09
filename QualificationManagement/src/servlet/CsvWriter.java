@@ -2,6 +2,7 @@ package servlet;
 
 import java.io.IOException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -29,8 +30,25 @@ public class CsvWriter extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		QualificationDAO.writersCSV();
-		System.out.println("a");
+		String[] csvArgument =request.getParameterValues("csvArg");
+
+		//1クラス分の受験情報をCSVファイルへ出力
+		if(!("null".equals(csvArgument[0])) && !("null".equals(csvArgument[1]))){
+			QualificationDAO.writersCSV(Integer.parseInt(csvArgument[1]), Integer.parseInt(csvArgument[0]));
+
+		//1学年分の受験情報をCSVファイルへ出力
+		} else if(!("null".equals(csvArgument[0])) && "null".equals(csvArgument[1])){
+			QualificationDAO.writersCSV(Integer.parseInt(csvArgument[0]));
+
+		//全生徒の受験情報をCSVファイルへ出力
+		} else {
+			QualificationDAO.writersCSV();
+		}
+
+		String view = "/WEB-INF/view/writerscsv.jsp";
+		RequestDispatcher dispatcher = request.getRequestDispatcher(view);
+		dispatcher.forward(request, response);
+
 	}
 
 	/**

@@ -34,17 +34,23 @@ public class ShowQualiData extends HttpServlet {
 		//教員用の資格情報確認画面で「学年」を選択した場合
 		if(request.getParameter("year") != null){
 			int year = Integer.parseInt(request.getParameter("year"));
+			String[] years = new String[1];
+			years[0] = String.valueOf(year);
 			request.setAttribute("qualiList", QualificationDAO.getYearInfo(year));
+			request.setAttribute("csvArgument", years);
 
 		//教員用の資格情報確認画面で「クラス」を選択した場合
 		} else if(request.getParameter("class") != null){
 			String[] yearClass = request.getParameter("class").split(",");
+			request.setAttribute("csvArgument", yearClass);
 			int year = Integer.parseInt(yearClass[0]);
 			int cls = Integer.parseInt(yearClass[1]);
 			request.setAttribute("qualiList", QualificationDAO.getClassInfo(cls, year));
 
 		//教員用の資格情報確認画面で「全生徒」を選択した場合
 		} else {
+			String[] year = new String[0];
+			request.setAttribute("csvArgument", year);
 			request.setAttribute("qualiList", QualificationDAO.getStudentsInfo());
 		}
 

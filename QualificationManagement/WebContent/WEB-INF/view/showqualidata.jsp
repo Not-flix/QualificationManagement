@@ -17,8 +17,18 @@
 	<header>
 
 		<%
+			String years = null;
+			String classes = null;
 			request.setCharacterEncoding("UTF-8");
 			ArrayList<StudentsInfo> qualiStuList = (ArrayList<StudentsInfo>)request.getAttribute("qualiList");
+			String[] yearClass = (String[])request.getAttribute("csvArgument");
+			if(yearClass.length == 2){
+				years = yearClass[0];
+				classes = yearClass[1];
+			} else if(yearClass.length == 1){
+				years = yearClass[0];
+			}
+
 		%>
 
 		<h1>
@@ -79,7 +89,13 @@
 				%>
 			</tbody>
 		</table>
-		<br><br>
-		<input type="button" class="button" value="ファイル出力" onclick="location.href='/QualificationManagement/CsvWriter'" style="WIDTH: 200px; HEIGHT: 50px;">
+		<br><br><br>
+		<form method="get" action="/QualificationManagement/CsvWriter">
+  			<input type="hidden" name="csvArg" value=<%=years%>>
+  			<input type="hidden" name="csvArg" value=<%=classes%>>
+  			<input type="submit" value="CSVファイル出力" style="WIDTH: 200px; HEIGHT: 50px;">
+		</form>
+
+
 </body>
 </html>
