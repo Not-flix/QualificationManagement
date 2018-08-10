@@ -54,7 +54,7 @@ public class QualiHistory extends HttpServlet {
 			if(fullName.equals(user.getStuName()) && pass.equals(user.getStuPass())){
 
 				//HttpSessionインスタンスの取得
-				HttpSession session = request.getSession();
+				HttpSession session = request.getSession(false);
 
 				//セッションスコープにインスタンスを保存
 				session.setAttribute("user", user);
@@ -62,6 +62,8 @@ public class QualiHistory extends HttpServlet {
 				Top.flag = false;
 
 				if(user.getAuthorithy() == 0){
+					session = request.getSession(true);
+
 					String view = "/WEB-INF/view/history.jsp";
 					RequestDispatcher dispatcher = request.getRequestDispatcher(view);
 					dispatcher.forward(request, response);

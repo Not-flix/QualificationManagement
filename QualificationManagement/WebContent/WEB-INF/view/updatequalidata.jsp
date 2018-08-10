@@ -4,6 +4,7 @@
 <%@ page import="dao.QualificationDAO"%>
 <%@ page import="dto.StudentsInfo"%>
 <%@ page import="dto.Qualification"%>
+<%@ page import="dto.Login" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,6 +20,7 @@
 			request.setCharacterEncoding("UTF-8");
 			StudentsInfo si = (StudentsInfo) request.getAttribute("examination");
 			ArrayList<Qualification> qualiNameList = (ArrayList<Qualification>) request.getAttribute("qualiNameList");
+			Login user = (Login) session.getAttribute("user");
 		%>
 
 	<script>
@@ -55,10 +57,12 @@
 			<ul>
 				<li><a href="/QualificationManagement/ManagerTop"><img
 						src="./img/受験状況.png" width="170" height="60" alt="受験状況"></a></li>
-				<li><a href="/QualificationManagement/Passed"><img
+				<li><a href="/QualificationManagement/PassedManager"><img
 						src="./img/試験合格者.png" width="170" height="60" alt="試験合格者"></a></li>
 				<li><a href="/QualificationManagement/AddQualification"><img
 						src="./img/資格追加.png" width="170" height="60" alt="資格追加"></a></li>
+				<li>　　<a><%=user.getStuName() %>さん、ログイン中</a><br>
+						<form>　　　　　　 　　<button type="button" onClick="location.href='/QualificationManagement/LogOut'">ログアウト</button></form></li>
 			</ul>
 		</nav>
 	</header>
