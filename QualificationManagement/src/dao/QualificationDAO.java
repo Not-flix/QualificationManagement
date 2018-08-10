@@ -1390,7 +1390,7 @@ public class QualificationDAO {
 
 			int i = 1;		//No用
 			while(rs.next() == true){
-				bw.write(String.valueOf(rs.getInt(i)));bw.write(",");
+				bw.write(String.valueOf(i));bw.write(",");
 				bw.write(rs.getString("s.stu_name"));bw.write(",");
 				bw.write(String.valueOf(rs.getInt("s.school_year")));bw.write(",");
 				bw.write(String.valueOf(rs.getInt("s.school_class")));bw.write(",");
