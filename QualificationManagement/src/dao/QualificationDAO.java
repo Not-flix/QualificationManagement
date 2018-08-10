@@ -732,6 +732,80 @@ public class QualificationDAO {
 
 	}
 
+	//教員用の「資格追加」ページに表示する資格情報一覧
+	public static ArrayList<Qualification> getAllQualification(){
+
+		ArrayList<Qualification> qualiAllList = new ArrayList<Qualification>();
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try{
+
+			Class.forName("com.mysql.jdbc.Driver");
+
+			con = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/qualification_management?useSSL=false",
+					"nozomi",
+					"nozomi01");
+
+			String sql = "select q.quali_id, q.quali_name, b.bunrui_name, d.dantai_name"
+					+ " from qualification q"
+					+ " inner join bunrui b"
+					+ " on q.bunrui_id = b.bunrui_id"
+					+ " inner join dantai d"
+					+ " on q.dantai_id = d.dantai_id"
+					+ " order by q.bunrui_id asc, q.dantai_id asc, q.quali_id;";
+
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+
+			while(rs.next() == true){
+				int qualiId = rs.getInt("q.quali_id");
+				String qualiName = rs.getString("q.quali_name");
+				String bunruiName = rs.getString("b.bunrui_name");
+				String dantaiName = rs.getString("d.dantai_name");
+				qualiAllList.add(new Qualification(qualiId, qualiName, bunruiName, dantaiName));
+			}
+
+
+		} catch (SQLException se){
+			se.printStackTrace();
+		} catch (Exception e){
+
+		} finally {
+			try {
+				if( rs != null){
+					rs.close();
+				}
+			} catch(SQLException e){
+				System.out.println("DB切断時にエラーが発生しました。");
+				e.printStackTrace();
+			}
+			try {
+				if( pstmt != null){
+					pstmt.close();
+				}
+			} catch(SQLException e){
+				System.out.println("DB切断時にエラーが発生しました。");
+				e.printStackTrace();
+			}
+
+			try {
+				if( con != null){
+					con.close();
+				}
+			} catch (SQLException e){
+				System.out.println("DB切断時にエラーが発生しました。");
+				e.printStackTrace();
+			}
+		}
+
+		return qualiAllList;
+
+	}
+
 	//教員用ページに表示する生徒の受験情報の取得(全校)
 	public static ArrayList<StudentsInfo> getStudentsInfo(){
 
@@ -1155,6 +1229,415 @@ public class QualificationDAO {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	//分類名登録
+	public static void insertBunrui(String bunruiName){
+		Connection con = null;
+		PreparedStatement pstmt = null;
+
+		try{
+
+			Class.forName("com.mysql.jdbc.Driver");
+
+			con = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/qualification_management?useSSL=false",
+					"nozomi",
+					"nozomi01");
+
+			String sql = "insert into bunrui(bunrui_name) values(?);";
+
+			pstmt = con.prepareStatement(sql);
+
+			String bName = bunruiName;
+			pstmt.setString(1, bName);
+
+			pstmt.executeUpdate();
+
+		} catch (SQLException e){
+			e.printStackTrace();
+		} catch (Exception e){
+			e.printStackTrace();
+		} finally {
+
+			try {
+				if( pstmt != null){
+					pstmt.close();
+				}
+			} catch(SQLException e){
+				System.out.println("DB切断時にエラーが発生しました。");
+				e.printStackTrace();
+			}
+
+			try {
+				if( con != null){
+					con.close();
+				}
+			} catch (SQLException e){
+				System.out.println("DB切断時にエラーが発生しました。");
+				e.printStackTrace();
+			}
+		}
+	}
+
+	//団体名登録
+	public static void insertDantai(String dantaiName){
+		Connection con = null;
+		PreparedStatement pstmt = null;
+
+		try{
+
+			Class.forName("com.mysql.jdbc.Driver");
+
+			con = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/qualification_management?useSSL=false",
+					"nozomi",
+					"nozomi01");
+
+			String sql = "insert into dantai(dantai_name) values(?);";
+
+			pstmt = con.prepareStatement(sql);
+
+			String dName = dantaiName;
+			pstmt.setString(1, dName);
+
+			pstmt.executeUpdate();
+
+		} catch (SQLException e){
+			e.printStackTrace();
+		} catch (Exception e){
+			e.printStackTrace();
+		} finally {
+
+			try {
+				if( pstmt != null){
+					pstmt.close();
+				}
+			} catch(SQLException e){
+				System.out.println("DB切断時にエラーが発生しました。");
+				e.printStackTrace();
+			}
+
+			try {
+				if( con != null){
+					con.close();
+				}
+			} catch (SQLException e){
+				System.out.println("DB切断時にエラーが発生しました。");
+				e.printStackTrace();
+			}
+		}
+	}
+
+	//資格登録
+	public static void insertQualification(String qualificationName, int bunruiId, int dantaiId){
+		Connection con = null;
+		PreparedStatement pstmt = null;
+
+		try{
+
+			Class.forName("com.mysql.jdbc.Driver");
+
+			con = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/qualification_management?useSSL=false",
+					"nozomi",
+					"nozomi01");
+
+			String sql = "insert into qualification(quali_name, bunrui_id, dantai_id) values(?,?,?);";
+
+			pstmt = con.prepareStatement(sql);
+
+			String qualiName = qualificationName;
+			int bId = bunruiId;
+			int dId = dantaiId;
+			pstmt.setString(1, qualiName);
+			pstmt.setInt(2, bId);
+			pstmt.setInt(3, dId);
+
+			pstmt.executeUpdate();
+
+		} catch (SQLException e){
+			e.printStackTrace();
+		} catch (Exception e){
+			e.printStackTrace();
+		} finally {
+
+			try {
+				if( pstmt != null){
+					pstmt.close();
+				}
+			} catch(SQLException e){
+				System.out.println("DB切断時にエラーが発生しました。");
+				e.printStackTrace();
+			}
+
+			try {
+				if( con != null){
+					con.close();
+				}
+			} catch (SQLException e){
+				System.out.println("DB切断時にエラーが発生しました。");
+				e.printStackTrace();
+			}
+		}
+	}
+
+	//分類名から分類ＩＤを取得
+	public static int getBunruiId(String bunruiName){
+
+		int result = 0;
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try{
+
+			Class.forName("com.mysql.jdbc.Driver");
+
+			con = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/qualification_management?useSSL=false",
+					"nozomi",
+					"nozomi01");
+
+			String sql = "select bunrui_id from bunrui where bunrui_name=?";
+
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, bunruiName);
+			rs = pstmt.executeQuery();
+
+			rs.next();
+			result = rs.getInt("bunrui_id");
+
+		} catch (SQLException se){
+			se.printStackTrace();
+		} catch (Exception e){
+
+		} finally {
+			try {
+				if( rs != null){
+					rs.close();
+				}
+			} catch(SQLException e){
+				System.out.println("DB切断時にエラーが発生しました。");
+				e.printStackTrace();
+			}
+			try {
+				if( pstmt != null){
+					pstmt.close();
+				}
+			} catch(SQLException e){
+				System.out.println("DB切断時にエラーが発生しました。");
+				e.printStackTrace();
+			}
+
+			try {
+				if( con != null){
+					con.close();
+				}
+			} catch (SQLException e){
+				System.out.println("DB切断時にエラーが発生しました。");
+				e.printStackTrace();
+			}
+		}
+
+		return result;
+
+	}
+
+	//団体名から団体ＩＤを取得
+	public static int getDantaiId(String dantaiName){
+
+		int result = 0;
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try{
+
+			Class.forName("com.mysql.jdbc.Driver");
+
+			con = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/qualification_management?useSSL=false",
+					"nozomi",
+					"nozomi01");
+
+			String sql = "select dantai_id from dantai where dantai_name=?";
+
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, dantaiName);
+			rs = pstmt.executeQuery();
+
+			rs.next();
+			result = rs.getInt("dantai_id");
+
+		} catch (SQLException se){
+			se.printStackTrace();
+		} catch (Exception e){
+
+		} finally {
+			try {
+				if( rs != null){
+					rs.close();
+				}
+			} catch(SQLException e){
+				System.out.println("DB切断時にエラーが発生しました。");
+				e.printStackTrace();
+			}
+			try {
+				if( pstmt != null){
+					pstmt.close();
+				}
+			} catch(SQLException e){
+				System.out.println("DB切断時にエラーが発生しました。");
+				e.printStackTrace();
+			}
+
+			try {
+				if( con != null){
+					con.close();
+				}
+			} catch (SQLException e){
+				System.out.println("DB切断時にエラーが発生しました。");
+				e.printStackTrace();
+			}
+		}
+
+		return result;
+
+	}
+
+	//新規登録する資格の分類が存在しているかのチェック
+	public static boolean checkBunrui(String bunruiName){
+
+		//レコードが無い場合はfalseを返す
+		boolean result = false;
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try{
+
+			Class.forName("com.mysql.jdbc.Driver");
+
+			con = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/qualification_management?useSSL=false",
+					"nozomi",
+					"nozomi01");
+
+			String sql = "select * from bunrui where bunrui_name=?";
+
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, bunruiName);
+			rs = pstmt.executeQuery();
+
+			//レコードがあった場合trueを返す
+			if(rs.next() == true){
+				result = true;
+			}
+
+		} catch (SQLException se){
+			se.printStackTrace();
+		} catch (Exception e){
+
+		} finally {
+			try {
+				if( rs != null){
+					rs.close();
+				}
+			} catch(SQLException e){
+				System.out.println("DB切断時にエラーが発生しました。");
+				e.printStackTrace();
+			}
+			try {
+				if( pstmt != null){
+					pstmt.close();
+				}
+			} catch(SQLException e){
+				System.out.println("DB切断時にエラーが発生しました。");
+				e.printStackTrace();
+			}
+
+			try {
+				if( con != null){
+					con.close();
+				}
+			} catch (SQLException e){
+				System.out.println("DB切断時にエラーが発生しました。");
+				e.printStackTrace();
+			}
+		}
+
+		return result;
+
+	}
+
+	//新規登録する資格の団体が存在しているかのチェック
+	public static boolean checkDantai(String dantaiName){
+
+		//レコードがない場合はfalseを返す
+		boolean result = false;
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try{
+
+			Class.forName("com.mysql.jdbc.Driver");
+
+			con = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/qualification_management?useSSL=false",
+					"nozomi",
+					"nozomi01");
+
+			String sql = "select * from dantai where dantai_name=?";
+
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, dantaiName);
+			rs = pstmt.executeQuery();
+
+			//レコードがあった場合trueを返す
+			if(rs.next() == true){
+				result = true;
+			}
+
+		} catch (SQLException se){
+			se.printStackTrace();
+		} catch (Exception e){
+
+		} finally {
+			try {
+				if( rs != null){
+					rs.close();
+				}
+			} catch(SQLException e){
+				System.out.println("DB切断時にエラーが発生しました。");
+				e.printStackTrace();
+			}
+			try {
+				if( pstmt != null){
+					pstmt.close();
+				}
+			} catch(SQLException e){
+				System.out.println("DB切断時にエラーが発生しました。");
+				e.printStackTrace();
+			}
+
+			try {
+				if( con != null){
+					con.close();
+				}
+			} catch (SQLException e){
+				System.out.println("DB切断時にエラーが発生しました。");
+				e.printStackTrace();
+			}
+		}
+
+		return result;
+
 	}
 
 
