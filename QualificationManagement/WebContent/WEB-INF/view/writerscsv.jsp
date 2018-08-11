@@ -24,7 +24,7 @@
 			<ul>
 				<li><a href="/QualificationManagement/ManagerTop"><img
 						src="./img/受験状況.png" width="170" height="60" alt="受験状況"></a></li>
-				<li><a href="/QualificationManagement/Passed"><img
+				<li><a href="/QualificationManagement/PassedManager"><img
 						src="./img/試験合格者.png" width="170" height="60" alt="試験合格者"></a></li>
 				<li><a href="/QualificationManagement/AddQualification"><img
 						src="./img/資格追加.png" width="170" height="60" alt="資格追加"></a></li>
