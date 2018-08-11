@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -18,13 +19,13 @@ import dao.QualificationDAO;
 public class DeleteQualiData extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public DeleteQualiData() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public DeleteQualiData() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -46,7 +47,14 @@ public class DeleteQualiData extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		int eId = Integer.parseInt(request.getParameter("examId"));
 		QualificationDAO.deleteQualiData(eId);
-		response.sendRedirect("/QualificationManagement/ManagerTop");
+
+		//前のページに戻る処理
+		response.setContentType("text/html; charset=UTF-8");
+		PrintWriter printWriter = response.getWriter();
+		printWriter.println("<script>");
+		printWriter.println("history.go(-2)");					//前のページに戻るスクリプト
+		printWriter.println("window.location.reload(true);");		//ページのリロード
+		printWriter.println("</script>");
 
 	}
 

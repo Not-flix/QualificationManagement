@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -53,7 +54,15 @@ public class UpdateQualiData extends HttpServlet {
 			condition = String.valueOf(QualificationDAO.getQualiNo(condition));
 		}
 		QualificationDAO.updateExamList(item, condition, examId);
-		response.sendRedirect("http://localhost:8080/QualificationManagement/ManagerTop");
+
+		//前のページに戻る処理
+		response.setContentType("text/html; charset=UTF-8");
+		PrintWriter printWriter = response.getWriter();
+		printWriter.println("<script>");
+		printWriter.println("history.go(-2)");					//前のページに戻るスクリプト
+		printWriter.println("window.location.reload(true);");		//ページのリロード
+		printWriter.println("</script>");
+
 	}
 
 }

@@ -52,6 +52,7 @@ public class Top extends HttpServlet {
 		String gen = request.getParameter("gender");
 		String pass = request.getParameter("pass1");
 
+		//入力した2つのパスワードが一致していた場合
 		if(request.getParameter("pass1").equals(request.getParameter("pass2"))){
 
 			//studentsテーブルへデータを格納
@@ -61,14 +62,15 @@ public class Top extends HttpServlet {
 			RequestDispatcher dispatcher = request.getRequestDispatcher(view);
 			dispatcher.forward(request, response);
 
+		//入力した2つのパスワードが一致しなかった場合
 		} else {
-
-			//登録した2つのパスワードが一致しなかった場合
+			//エラーアラートの表示
 			response.setContentType("text/html; charset=UTF-8");
 			PrintWriter printWriter = response.getWriter();
-			printWriter.println("<html>");
-			printWriter.println("パスワード登録エラー");
-			printWriter.println("</html>");
+			printWriter.println("<script>");
+			printWriter.println("alert('入力した2つのパスワードが一致しませんでした。');");		//アラート表示
+			printWriter.println("history.go(-1)");											//前のページに戻るスクリプト
+			printWriter.println("</script>");
 
 		}
 	}

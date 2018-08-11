@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -72,8 +73,13 @@ public class QualiHistory extends HttpServlet {
 				}
 
 			} else {
-				//エラー画面
-				response.sendRedirect("/QualificationManagement/Error");
+				//エラーアラートの表示
+				response.setContentType("text/html; charset=UTF-8");
+				PrintWriter printWriter = response.getWriter();
+				printWriter.println("<script>");
+				printWriter.println("alert('氏名またはパスワードに誤りがあります。');");		//アラート表示
+				printWriter.println("history.go(-1)");											//前のページに戻るスクリプト
+				printWriter.println("</script>");
 			}
 
 
