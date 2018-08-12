@@ -1382,6 +1382,69 @@ public class QualificationDAO {
 		}
 	}
 
+	//資格名から資格ＩＤを取得
+	public static int getQualificationId(String qualiName){
+
+		int result = 0;
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try{
+
+			Class.forName("com.mysql.jdbc.Driver");
+
+			con = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/qualification_management?useSSL=false",
+					"nozomi",
+					"nozomi01");
+
+			String sql = "select quali_id from qualification where quali_name=?";
+
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, qualiName);
+			rs = pstmt.executeQuery();
+
+			rs.next();
+			result = rs.getInt("quali_id");
+
+		} catch (SQLException se){
+			se.printStackTrace();
+		} catch (Exception e){
+
+		} finally {
+			try {
+				if( rs != null){
+					rs.close();
+				}
+			} catch(SQLException e){
+				System.out.println("DB切断時にエラーが発生しました。");
+				e.printStackTrace();
+			}
+			try {
+				if( pstmt != null){
+					pstmt.close();
+				}
+			} catch(SQLException e){
+				System.out.println("DB切断時にエラーが発生しました。");
+				e.printStackTrace();
+			}
+
+			try {
+				if( con != null){
+					con.close();
+				}
+			} catch (SQLException e){
+				System.out.println("DB切断時にエラーが発生しました。");
+				e.printStackTrace();
+			}
+		}
+
+		return result;
+
+	}
+
 	//分類名から分類ＩＤを取得
 	public static int getBunruiId(String bunruiName){
 

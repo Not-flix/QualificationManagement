@@ -50,13 +50,13 @@
 			<input type="hidden" name="stuId" value=<%=user.getStuId()%>>
 
 			<b><font size="3" style="bold">資格名</font></b><br><br>
-			<select name="qualiName">
-				<%
-				for(Qualification qf : qualiNameList){
-				%>
-				<option value=<%=qf.getQualiNo() %>><%=qf.getQualiName() %></option>
-				<%} %>
-			</select><br><br>
+			<input type="text" name="qualiName" list="qualiList" placeholder="テキスト入力もしくはダブルクリック" autocomplete="off">
+			<datalist id="qualiList">
+  			<%for(Qualification qf : qualiNameList){ %>
+  　		<option value=<%=qf.getQualiName() %>></option>
+			<%} %>
+  			</datalist>
+  			<br><br>
 
 			<b><font size="3" style="bold">受験日</font></b><br><br>
 			年：<select name="qualiYear">

@@ -46,7 +46,7 @@ public class ExaRegister extends HttpServlet {
 		//学生ID
 		int studentId = Integer.parseInt(request.getParameter("stuId"));
 		//資格ID
-		int qualiNo = Integer.parseInt(request.getParameter("qualiName"));
+		int qualiNo = QualificationDAO.getQualificationId(request.getParameter("qualiName"));
 		//資格年月日
 		String year = request.getParameter("qualiYear");
 		String month = request.getParameter("qualiMonth");
