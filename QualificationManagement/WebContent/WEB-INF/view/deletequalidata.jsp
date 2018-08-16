@@ -45,12 +45,14 @@
 	<a>氏名：</a> <a><%=si.getStuName() %></a><br>
 	<a>資格名：</a> <a><%=si.getQualiName() %></a><br>
 	<a>受験日：</a> <a><%=si.getQualiDate() %></a><br>
-	<a>結果：</a> <a><%=si.getSucces() %></a><br>
+	<a>結果：</a> <a><%=si.getSucces() %></a><br><br>
 
 	<form action="/QualificationManagement/DeleteQualiData" method="post">
 	<input type="hidden" name="examId" value=<%=si.getExaId() %>>
 	<input type="submit" value="削除" onClick="alert('1件の受験情報を削除しました。');">
-	</form>
+	</form><br><br>
+
+	<a href="javascript:history.go(-1)">[戻る]</a>
 
 </body>
 </html>

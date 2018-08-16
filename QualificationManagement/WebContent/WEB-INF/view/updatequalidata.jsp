@@ -90,7 +90,9 @@
 				更新内容：<select name="selectName2"></select><br><br>
 				<input type="hidden" name="examid" value=<%=examId %>>
 				<input type="submit" value="更新" onClick="alert('1件の受験情報を更新しました。');">
-		</form>
+		</form><br><br>
+
+		<a href="javascript:history.go(-1)">[戻る]</a>
 
 			<br><br><br>
 
