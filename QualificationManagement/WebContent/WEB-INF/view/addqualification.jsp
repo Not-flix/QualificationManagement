@@ -73,13 +73,13 @@
 
 		<form method="post" action="/QualificationManagement/AddQualification">
 		追加資格：<input type="text" name="addQuali">
-		分類名：<input type="text" name="bunrui" list="bunruiList" placeholder="テキスト入力もしくはダブルクリック" autocomplete="off">
+		分類名：<input type="text" name="bunrui" list="bunruiList" placeholder="リストに無い場合はテキスト入力" autocomplete="off">
   			<datalist id="bunruiList">
   			<%for(Bunrui bunrui : bunruiList){ %>
   　		<option value=<%=bunrui.getBunruiName() %>>>
   			<%} %>>
   		</datalist>
-  		団体名：<input type="text" name="dantai" list="dantaiList" placeholder="テキスト入力もしくはダブルクリック" autocomplete="off">
+  		団体名：<input type="text" name="dantai" list="dantaiList" placeholder="リストに無い場合はテキスト入力" autocomplete="off">
   			<datalist id="dantaiList">
   			<%for(Dantai dantai : dantaiList){ %>
   　		<option value=<%=dantai.getDantaiName() %>>>
