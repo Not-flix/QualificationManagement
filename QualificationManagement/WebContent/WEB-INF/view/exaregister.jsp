@@ -60,7 +60,7 @@
 
 			<b><font size="3" style="bold">受験日</font></b><br><br>
 			年：<select name="qualiYear">
-			<%for(int i = 2000; i <= 2018; i++) {%>
+			<%for(int i = 2000; i <= 2030; i++) {%>
 			<option value=<%=i %>><%=i %></option>
 			<%} %>
 			</select>
