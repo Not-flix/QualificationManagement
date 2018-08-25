@@ -84,8 +84,8 @@
   			<%for(Dantai dantai : dantaiList){ %>
   　		<option value=<%=dantai.getDantaiName() %>>>
   			<%} %>>
-  		</datalist><br><br><br>
-  		<input type="submit" value="新規登録" style="WIDTH: 120px; HEIGHT: 30px;" onClick="alert('1件の資格情報を登録しました。');">
+  		</datalist><br><br>
+  		<input type="submit" value="新規登録" style="WIDTH: 120px; HEIGHT: 35px;" onClick="alert('1件の資格情報を登録しました。');">
 		</form>
 
 </body>
